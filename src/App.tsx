@@ -11,8 +11,10 @@ import ImageModal from "./components/ImageModal/ImageModal";
 
 import { fetchData } from "./components/api";
 
+import { Image } from "./types";
+
 function App() {
-  const [images, setImages] = useState([]);
+  const [images, setImages] = useState<Image[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isError, setIsError] = useState<boolean>(false);
 
@@ -21,7 +23,7 @@ function App() {
   const [totalPages, setTotalPages] = useState<number>(0);
 
   const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
-  const [selectedImage, setSelectedImage] = useState<image | null>(null);
+  const [selectedImage, setSelectedImage] = useState<Image | null>(null);
 
   const PER_PAGE = 12;
 
@@ -45,10 +47,20 @@ function App() {
         setIsError(false);
         setIsLoading(true);
         const data = await fetchData(query, currentPage, PER_PAGE);
-        console.log(data);
+        
+//--Map Results---
 
+ const mappedResults: Image[] = data.results.map((item) => ({
+        id: item.id,
+        alt_description: item.alt_description,
+        urls: {
+          small: item.urls.small,
+          regular: item.urls.regular,
+        },
+      }));
+//----
         setImages((prevImages) => {
-          return [...prevImages, ...data.results];
+          return [...prevImages, ...mappedResults];
         });
         setTotalPages(data.total_pages);
       } catch {
@@ -64,7 +76,7 @@ function App() {
   const openModal = (image) => {
     setSelectedImage(image);
     setModalIsOpen(true);
-    console.log(`Картинка ${image}`)
+    
   };
 
   const closeModal = () => {
