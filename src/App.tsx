@@ -27,7 +27,7 @@ function App() {
 
   const PER_PAGE = 12;
 
-  const handleSearchSubmit = async (newQuery) => {
+  const handleSearchSubmit = async (newQuery: string) => {
     setQuery(newQuery);
     setCurrentPage(1);
     setImages([]);
@@ -47,6 +47,7 @@ function App() {
         setIsError(false);
         setIsLoading(true);
         const data = await fetchData(query, currentPage, PER_PAGE);
+        console.log(data.results)
         
 //--Map Results---
 
@@ -73,7 +74,7 @@ function App() {
     getData();
   }, [query, currentPage]);
 
-  const openModal = (image) => {
+  const openModal = (image: Image) => {
     setSelectedImage(image);
     setModalIsOpen(true);
     
