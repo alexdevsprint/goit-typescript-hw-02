@@ -1,9 +1,17 @@
 import css from "./ImageModal.module.css";
 import Modal from "react-modal";
 
+import { Image } from "../../types";
+
 Modal.setAppElement("#root");
 
-export default function ImageModal({ isOpen, image, onRequestClose }) {  
+interface ImageModalProps {
+  isOpen: boolean;
+  selectedImage: Image | null;
+  onRequestClose: () => void;
+}
+
+export default function ImageModal({ isOpen, selectedImage, onRequestClose } : ImageModalProps) {  
   return (
     <Modal
       isOpen={isOpen}
@@ -14,7 +22,7 @@ export default function ImageModal({ isOpen, image, onRequestClose }) {
       shouldCloseOnEsc={true}
       contentLabel="Image Preview"
     >
-      {image && <img className={css.modalImg} src={image.urls.regular} alt={image.alt_description} />}
+      {selectedImage && <img className={css.modalImg} src={selectedImage.urls.regular} alt={selectedImage.alt_description} />}
     </Modal>
   );
 }

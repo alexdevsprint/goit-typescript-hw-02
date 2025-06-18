@@ -7,7 +7,7 @@ const API_KEY = "4QMrl8guwtes6LXxWeXN_wpyU-wBACS3-duCqs7NG78";
 
 
 
-export const fetchData = async (query, page = 1, per_page = 12):Promise<apiResponse> => {
+export const fetchData = async (query:string, page = 1, per_page = 12):Promise<apiResponse> => {
   const response = await axios.get<apiResponse>("https://api.unsplash.com/search/photos", {
     params: {
       client_id: API_KEY,

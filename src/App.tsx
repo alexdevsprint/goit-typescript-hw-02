@@ -47,19 +47,19 @@ function App() {
         setIsError(false);
         setIsLoading(true);
         const data = await fetchData(query, currentPage, PER_PAGE);
-        console.log(data.results)
-        
-//--Map Results---
+        console.log(data.results);
 
- const mappedResults: Image[] = data.results.map((item) => ({
-        id: item.id,
-        alt_description: item.alt_description,
-        urls: {
-          small: item.urls.small,
-          regular: item.urls.regular,
-        },
-      }));
-//----
+        //--Map Results---
+
+        const mappedResults: Image[] = data.results.map((item) => ({
+          id: item.id,
+          alt_description: item.alt_description,
+          urls: {
+            small: item.urls.small,
+            regular: item.urls.regular,
+          },
+        }));
+        //----
         setImages((prevImages) => {
           return [...prevImages, ...mappedResults];
         });
@@ -77,7 +77,6 @@ function App() {
   const openModal = (image: Image) => {
     setSelectedImage(image);
     setModalIsOpen(true);
-    
   };
 
   const closeModal = () => {
@@ -86,7 +85,7 @@ function App() {
   };
 
   return (
-    <div>      
+    <div>
       <SearchBar onSearchSubmit={handleSearchSubmit} />
       {isError && <ErrorMessage />}
       {images.length > 0 && (
@@ -100,7 +99,7 @@ function App() {
       <ImageModal
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
-        image={selectedImage}
+        selectedImage={selectedImage}
       />
 
       <Toaster />
