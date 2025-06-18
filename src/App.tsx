@@ -12,23 +12,23 @@ import ImageModal from "./components/ImageModal/ImageModal";
 import { fetchData } from "./components/api";
 
 function App() {
-  const [photos, setPhotos] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [isError, setIsError] = useState(false);
+  const [images, setImages] = useState([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isError, setIsError] = useState<boolean>(false);
 
-  const [query, setQuery] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(0);
+  const [query, setQuery] = useState<string>("");
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [totalPages, setTotalPages] = useState<number>(0);
 
-  const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [selectedImage, setSelectedImage] = useState(null);
+  const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
+  const [selectedImage, setSelectedImage] = useState<image | null>(null);
 
   const PER_PAGE = 12;
 
   const handleSearchSubmit = async (newQuery) => {
     setQuery(newQuery);
     setCurrentPage(1);
-    setPhotos([]);
+    setImages([]);
   };
 
   const handleLoadMoreClick = () => {
@@ -47,8 +47,8 @@ function App() {
         const data = await fetchData(query, currentPage, PER_PAGE);
         console.log(data);
 
-        setPhotos((prevPhotos) => {
-          return [...prevPhotos, ...data.results];
+        setImages((prevImages) => {
+          return [...prevImages, ...data.results];
         });
         setTotalPages(data.total_pages);
       } catch {
@@ -61,9 +61,10 @@ function App() {
     getData();
   }, [query, currentPage]);
 
-  const openModal = (pic) => {
-    setSelectedImage(pic);
+  const openModal = (image) => {
+    setSelectedImage(image);
     setModalIsOpen(true);
+    console.log(`Картинка ${image}`)
   };
 
   const closeModal = () => {
@@ -75,11 +76,11 @@ function App() {
     <div>      
       <SearchBar onSearchSubmit={handleSearchSubmit} />
       {isError && <ErrorMessage />}
-      {photos.length > 0 && (
-        <ImageGallery photos={photos} onImageClick={openModal} />
+      {images.length > 0 && (
+        <ImageGallery images={images} onImageClick={openModal} />
       )}
       {isLoading && <Loader />}
-      {photos.length > 0 && !isLoading && currentPage < totalPages && (
+      {images.length > 0 && !isLoading && currentPage < totalPages && (
         <LoadMoreBtn onLoadMoreClick={handleLoadMoreClick} />
       )}
 

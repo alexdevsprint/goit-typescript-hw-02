@@ -3,7 +3,7 @@ import Modal from "react-modal";
 
 Modal.setAppElement("#root");
 
-export default function ImageModal({ isOpen, image, onRequestClose }) {
+export default function ImageModal({ isOpen, image, onRequestClose }) {  
   return (
     <Modal
       isOpen={isOpen}
@@ -14,7 +14,7 @@ export default function ImageModal({ isOpen, image, onRequestClose }) {
       shouldCloseOnEsc={true}
       contentLabel="Image Preview"
     >
-      {image && <img className={css.modalImg} src={image} alt="preview" />}
+      {image && <img className={css.modalImg} src={image.urls.regular} alt={image.alt_description} />}
     </Modal>
   );
 }
