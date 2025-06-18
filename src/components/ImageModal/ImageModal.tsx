@@ -22,7 +22,7 @@ export default function ImageModal({ isOpen, selectedImage, onRequestClose } : I
       shouldCloseOnEsc={true}
       contentLabel="Image Preview"
     >
-      {selectedImage && <img className={css.modalImg} src={selectedImage.urls.regular} alt={selectedImage.alt_description} />}
+      {selectedImage && <img className={css.modalImg} src={selectedImage.urls.regular} alt={selectedImage.alt_description ?? "Image without description"} />}
     </Modal>
   );
 }
